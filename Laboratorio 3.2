@@ -1,0 +1,41 @@
+# PRACTICA 2 – Scripting y automatización
+
+# Script para crear backup comprimido con TAR
+#Crea el script:
+nano backup_home.sh
+# Pon esto adentro para automatizar el backup
+#!/bin/bash
+# Script de backup de la carpeta /home/usuario
+
+FECHA=$(date +"%d-%m-%Y_%H-%M")
+USUARIO=$(whoami)
+DESTINO="/home/$USUARIO/backup_$FECHA.tar.gz"
+
+tar -czvf "$DESTINO" "/home/$USUARIO"
+
+echo "Backup completado: $DESTINO"
+
+# Dale permisos de ejecución:
+chmod +x backup_home.sh
+# Ejecuta el script:
+./backup_home.sh
+# Resultado esperado:
+backup_09-10-2025_17-30.tar.gz
+
+# Script que copia el resultado de ifconfig al escritorio
+# Crea el script:
+nano guardar_ifconfig.sh
+# Contenido:
+#!/bin/bash
+# Script para guardar la salida de ifconfig en el escritorio
+
+read -p "Ingrese el nombre del archivo: " nombre
+ifconfig > ~/Escritorio/${nombre}.txt
+
+echo "Archivo creado en el Escritorio con el nombre: ${nombre}.txt"
+
+# Dale Permisos y ejecución:
+chmod +x guardar_ifconfig.sh
+./guardar_ifconfig.sh
+# Resultado esperado:
+red_info.txt
