@@ -1,0 +1,42 @@
+# PRACTICA 3 – Acceso remoto SSH y autenticación con llaves
+
+# Configurar modo Bridge y probar conectividad
+
+# Apaga la VM → abre la configuración → Adaptador de red → Modo Bridge
+# Enciende la VM y obtén su IP:
+ip a
+# Desde Windows, abre CMD y prueba:
+ping <IP_de_la_VM>
+
+# Habilitar servicio SSH
+sudo dnf install openssh-server -y
+sudo systemctl enable --now sshd
+sudo systemctl status sshd
+
+# Prueba desde Windows con PowerShell o CMD:
+ssh tu_usuario@<IP_de_la_VM>
+# Introduce tu contraseña para comprobar el acceso.
+
+# Generar llaves SSH en Windows
+# Desde PowerShell o CMD:
+ssh-keygen
+# Cuando te pida directorio, presiona Enter
+# Se generarán dos archivos:
+#id_rsa (privada)
+#id_rsa.pub (pública)
+
+# Copiar la llave pública al servidor Linux
+
+# Desde PowerShell:
+scp C:\Users\<usuario>\.ssh\id_rsa.pub tu_usuario@<IP_de_la_VM>:/home/tu_usuario/
+# Luego, en Linux:
+mkdir -p ~/.ssh
+cat ~/id_rsa.pub >> ~/.ssh/authorized_keys
+chmod 700 ~/.ssh
+chmod 600 ~/.ssh/authorized_keys
+
+# Probar conexión automática sin contraseña
+
+# Desde Windows:
+ssh tu_usuario@<IP_de_la_VM>
+# Si todo fue correcto, entrarás directamente sin pedir contraseña.
