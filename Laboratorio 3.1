@@ -1,0 +1,40 @@
+# PRACTICA 1 – Configuración del GRUB y recuperación de contraseña Root
+
+# Configurar el tiempo de espera del menú GRUB
+# Edita el archivo de configuración de GRUB:
+sudo nano /etc/default/grub
+
+# Busca la línea:
+GRUB_TIMEOUT=5
+#y cámbiala a:
+GRUB_TIMEOUT=20
+# Guarda los cambios (Ctrl+O, Enter, Ctrl+X)
+# Aplica la configuración:
+sudo grub2-mkconfig -o /boot/grub2/grub.cfg
+# Verifica:
+grep GRUB_TIMEOUT /etc/default/grub
+
+# Método de recuperación si olvidas la contraseña del usuario root
+
+# En el menú GRUB, selecciona tu sistema y presiona e para editar.
+# Busca la línea que comienza con linux y agrega al final:
+rd.break
+#Presiona Ctrl + X o F10 para iniciar.
+
+# Monta el sistema en modo lectura/escritura:
+mount -o remount,rw /sysroot
+
+# Entra en el entorno root:
+chroot /sysroot
+
+#Cambia la contraseña:
+passwd root
+
+# Actualiza el contexto de SELinux:
+touch /.autorelabel
+
+# Sal y reinicia:
+exit
+reboot
+
+# Al iniciar de nuevo, podrás acceder con la nueva contraseña root.
